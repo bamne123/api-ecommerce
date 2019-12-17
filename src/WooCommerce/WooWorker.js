@@ -61,7 +61,7 @@ export default class WooWorker {
       console.log(err);
     }
   };
-  static getCustomers = async (id) => {
+  static getCustomers = async id => {
     try {
       const response = await this._api.get(`customers`);
       return response.json();
@@ -122,7 +122,11 @@ export default class WooWorker {
   };
   static reviewsByProductId = async (id, version) => {
     try {
-      const response = await this._api.get(`products/${id}/reviews`, undefined, version);
+      const response = await this._api.get(
+        `products/${id}/reviews`,
+        undefined,
+        version
+      );
       return response.json();
     } catch (err) {
       console.log(err);
@@ -133,8 +137,8 @@ export default class WooWorker {
       const response = await this._api.post("orders", data);
       const json = response.json();
 
-      if (json.id != 'undefined') {
-        this._api.post(`orders/${json.id}`, {status: 'processing'});
+      if (json.id != "undefined") {
+        this._api.post(`orders/${json.id}`, { status: "processing" });
       }
 
       return json;
@@ -226,13 +230,13 @@ export default class WooWorker {
       console.log(err);
     }
   };
-  static createNewOrder = async (data, callback, failCallBack) => {
+  static createNewOrder = async (data, status, callback, failCallBack) => {
     try {
       const response = await this._api.post("orders", data);
       const json = await response.json();
 
-      if (json.id != 'undefined') {
-        this._api.post(`orders/${json.id}`, {status: 'processing'});
+      if (json.id != "undefined") {
+        this._api.post(`orders/${json.id}`, { status });
       }
 
       if (json.code === undefined) {
