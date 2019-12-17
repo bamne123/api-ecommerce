@@ -230,16 +230,12 @@ export default class WooWorker {
       console.log(err);
     }
   };
-  static createNewOrder = async (data, status, callback, failCallBack) => {
+  static createNewOrder = async (data, callback, failCallBack) => {
     try {
       const response = await this._api.post("orders", data);
       const json = await response.json();
 
-      if (json.id != "undefined") {
-        this._api.post(`orders/${json.id}`, { status });
-      }
-
-      if (json.code === undefined) {
+      if (json.id != "undefined" && json.code === undefined) {
         callback(json);
       } else {
         typeof failCallBack === "function" && failCallBack();
