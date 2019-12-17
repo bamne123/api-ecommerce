@@ -235,7 +235,7 @@ export default class WooWorker {
       const response = await this._api.post("orders", data);
       const json = await response.json();
 
-      if (!isCustomStatus && json.id != "undefined") {
+      if (json.id != "undefined") {
         this._api.post(`orders/${json.id}`, { status: "pending" });
       }
 
